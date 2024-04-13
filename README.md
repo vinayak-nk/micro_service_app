@@ -25,3 +25,8 @@ SKAFFOLD
 -----------
 https://chocolatey.org/install
 https://skaffold.dev/docs/install/
+
+
+ESLINT, Prettier, 
+=================
+https://gist.github.com/silver-xu/1dcceaa14c4f0253d9637d4811948437

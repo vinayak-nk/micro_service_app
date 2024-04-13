@@ -108,6 +108,6 @@
   },
   "include": [
     "src", // or the directory containing your TypeScript files
-    "node_modules/express-validator" // Add this line if not already present
   ],
+  "exclude": ["node_modules"],
 }
