@@ -3,3 +3,16 @@
 2. tsc --init
 
 3. npm install dotenv @types/dotenv
+
+
+Error structure
+=================
+{
+    "errors": [
+        {
+            "message": "Error connecting to DB"
+        },
+    ]
+}
+
+
