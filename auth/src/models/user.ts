@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Password } from '../services/password';
 
 // An interface describes the props to create a new user
 interface UserAttrs {
@@ -27,6 +28,16 @@ const userSchema = new mongoose.Schema({
     require: true,
   },
 });
+
+// pre is a middleware provided by mongoose. do not use arrow fn
+userSchema.pre('save', async function(done) {
+  if (this.isModified('password')) {
+    const password = this.get('password') as string; // Type assertion to ensure 'password' is treated as a string
+    const hashedPassword = await Password.toHash(password)
+    this.set('password', hashedPassword) 
+  }
+  done()
+})
 
 // this function is created to overcome typescript checking at the time of creation of new user.
 userSchema.statics.build = (attrs: UserAttrs) => new User(attrs);
