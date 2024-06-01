@@ -15,7 +15,7 @@ const signoutHandler = (req: Request, res: Response) => {
   res.send('signout....')
 }
 
-const signupHandler = (req: Request, res: Response) => {
+const signupHandler = async (req: Request, res: Response) => {
   const errors = validationResult(req)
 
   if (!errors.isEmpty()) {

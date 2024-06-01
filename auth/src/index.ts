@@ -17,7 +17,7 @@ app.use(json());
 app.use(authRouter);
 
 // Throw error when route not found
-app.all('*', () => {
+app.all('*', async () => {
   throw new NotFoundError()
 })
 
