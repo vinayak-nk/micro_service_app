@@ -18,7 +18,8 @@ const emailValidator = [
 router.get('/api/v1/users/currentuser', currentUserHandler)
 router.post('/api/v1/users/signin', signinHandler)
 router.post('/api/v1/users/signout', signoutHandler)
-router.post('/api/v1/users/signup', emailValidator, signupHandler)
+// added email validation as an Arguments
+router.post('/api/v1/users/signup', emailValidator, signupHandler) 
 
 export { 
   router as authRouter

@@ -9,6 +9,8 @@ interface CustomError {
     field?: string;
   }[]
 }
+
+export class RequestValidationError extends Error implements CustomError
 */
 
 export class RequestValidationError extends CustomError {
@@ -23,9 +25,8 @@ export class RequestValidationError extends CustomError {
 
   serializeErrors() {
     return this.errors.map(error => {
-      if (error.type === 'field') {
-        return { message: error.msg, field: error.path }
-      }
+      if (error.type === 'field') return { message: error.msg, field: error.path }
+
       return { message: error.msg }
     })
 
