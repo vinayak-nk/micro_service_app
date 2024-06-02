@@ -10,6 +10,8 @@
 5. express-async-errors
     -> async error handling
 
+6. npm i mongoose @types/mongoose
+
 Error structure
 =================
 {

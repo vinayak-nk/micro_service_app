@@ -1,12 +1,21 @@
 import mongoose from 'mongoose';
 
+/*
+  there are 2 issues typescript and mongoose integration.
+
+  1. data type mismtach. Eg: String in TS, string in Mongoose
+  2. more properties in mongose than to User model we pass. Eg: createdAt, updatedAt etc 
+
+  to over come this need to define UserModel and Userdoc interfaces.
+*/
+
 // An interface describes the props to create a new user
 interface UserAttrs {
   email: string;
   password: string;
 }
 
-// props user "MODEL" has
+// describes the properties that a User "MODEL" has
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
@@ -35,3 +44,9 @@ userSchema.statics.build = (attrs: UserAttrs) => new User(attrs);
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User };
+
+/*
+  const User = mongoose.model('User', userSchema);
+  const buildUser = (attr: UserAttrs) => new User(attr)
+  export { User, buildUser }
+*/

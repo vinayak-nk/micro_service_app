@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 import { RequestValidationError } from '../errors/request-validation-error';
 // import { DatabaseConnectionError } from '../errors/database-connection-error';
 import { User } from '../models/user';
-import { BarRequestError } from '../errors/bad-request-error';
+import { BadRequestError } from '../errors/bad-request-error';
 
 const currentUserHandler = (req: Request, res: Response) => {
   res.send('current user');
@@ -32,7 +32,7 @@ const signupHandler = async (req: Request, res: Response) => {
 
   if (existingUser) {
     console.log(`${email} - user already exists`);
-    throw new BarRequestError('Email is already in use');
+    throw new BadRequestError('Email is already in use');
   }
   // create and save
   const user = User.build({ email, password });
