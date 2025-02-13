@@ -11,6 +11,6 @@ app.get('/api/users/currentUser', (req: Request, res: Response) => {
   res.send(`Hi there!!`);
 });
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
 });
