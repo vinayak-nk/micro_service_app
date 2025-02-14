@@ -34,7 +34,7 @@ const start = async () => {
   } catch (error) {
     console.log(error)
   }
-  app.listen(port, () => {
+  app.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
   });
 }
