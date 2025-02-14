@@ -2,8 +2,10 @@ import { randomBytes, scrypt } from 'crypto'
 import { promisify } from 'util'
 
 
+// turns callback function to promise for async await used in password class
 const scryptAsync = promisify(scrypt)
 
+// to call static functions no need to create a new class
 export class Password {
   static async toHash(password: string) {
     const salt = randomBytes(8).toString('hex')

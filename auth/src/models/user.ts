@@ -39,9 +39,9 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// pre is a middleware provided by mongoose. do not use arrow fn
+// userSchema.pre is a middleware provided by mongoose. The async function inside it is executed first whenever user tries to save anything to the DB. Do not use arrow fn as it will not have access to 'this' context.
 userSchema.pre('save', async function (done) {
-  if (this.isModified('password')) {
+  if (this.isModified('password')) { // hash password only when password is modified.
     const password = this.get('password') as string; // Type assertion to ensure 'password' is treated as a string
     const hashedPassword = await Password.toHash(password)
     this.set('password', hashedPassword)
