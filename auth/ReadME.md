@@ -12,6 +12,11 @@
 
 6. npm i mongoose @types/mongoose
 
+7. npm install cookie-session @types/cookie-session
+   -> A user session can be stored in cookies.
+
+8. npm i jsonwebtoken @types/jsonwebtoken
+
 # Error structure
 
     {
@@ -47,3 +52,9 @@
     1. show dbs
     OR
     1. kubectl exec -it <mongo-pod-name> -- mongosh
+
+# Saving secrets in kubernates pods
+
+    Create -> kubectl create secret generic jwt-secret --from-literal=JWT_KEY=qwerty
+    Read   -> kubectl get secrets
+    Delete -> kubectl delete secret jwt-secret
