@@ -3,6 +3,8 @@ import { body } from 'express-validator'
 
 import { currentUserHandler, signinHandler, signoutHandler, signupHandler } from '../routesHandlers/authHandler'
 import { validateRequest } from '../middlewares/validate-request';
+import { currentUserMiddleware } from '../middlewares/current-user';
+import { requireAuthMiddleware } from '../middlewares/require-auth';
 
 const router = express.Router()
 
@@ -21,7 +23,7 @@ const emailValidatorSignin = [
   body('password').trim().notEmpty().withMessage('Please enter a valid password')
 ]
 
-router.get('/api/v1/users/currentuser', currentUserHandler)
+router.get('/api/v1/users/currentuser', currentUserMiddleware, requireAuthMiddleware, currentUserHandler)
 router.post('/api/v1/users/signin', emailValidatorSignin, validateRequest, signinHandler)
 router.post('/api/v1/users/signout', signoutHandler)
 // added email validation as an Arguments

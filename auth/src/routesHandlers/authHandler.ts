@@ -8,6 +8,7 @@ import { BadRequestError } from '../errors/bad-request-error';
 import { Password } from '../services/password';
 
 const currentUserHandler = (req: Request, res: Response) => {
+  /*
   if (!req.session?.jwt) {
     return res.send({ currentUser: null })
   }
@@ -20,6 +21,9 @@ const currentUserHandler = (req: Request, res: Response) => {
   } catch (error) {
     res.send({ currentUser: null })
   }
+  */
+
+  res.send({ currentUser: req.currentUser || null })
 };
 
 const signinHandler = async (req: Request, res: Response) => {
