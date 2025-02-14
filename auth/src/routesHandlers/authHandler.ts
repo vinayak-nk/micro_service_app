@@ -8,7 +8,18 @@ import { BadRequestError } from '../errors/bad-request-error';
 import { Password } from '../services/password';
 
 const currentUserHandler = (req: Request, res: Response) => {
-  res.send('current user');
+  if (!req.session?.jwt) {
+    return res.send({ currentUser: null })
+  }
+
+  // jwt.verify() throws error if verification fails. So enclose in try-catch block.
+  try {
+    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!)
+
+    res.send({ currentUser: payload })
+  } catch (error) {
+    res.send({ currentUser: null })
+  }
 };
 
 const signinHandler = async (req: Request, res: Response) => {
@@ -41,7 +52,8 @@ const signinHandler = async (req: Request, res: Response) => {
 };
 
 const signoutHandler = (req: Request, res: Response) => {
-  res.send('signout....');
+  req.session = null // JWT toekn removed from session
+  res.send({});
 };
 
 const signupHandler = async (req: Request, res: Response) => {
