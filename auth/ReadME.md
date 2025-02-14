@@ -5,38 +5,45 @@
 3. npm install dotenv @types/dotenv
 
 4. npm i express-validator
-    -> import { validationResult } from 'express-validator' 
-    -> validate request params
+   -> import { validationResult } from 'express-validator'
+   -> validate request params
 5. express-async-errors
-    -> async error handling
+   -> async error handling
 
 6. npm i mongoose @types/mongoose
 
-Error structure
-=================
-{
-    "errors": [
-        {
-            "message": "Error connecting to DB"
-        },
+# Error structure
+
+    {
+        "errors": [
+            {
+                "message": "Error connecting to DB"
+            },
     ]
-}
+    }
 
+## ValidationError structure
 
-ValidationError structure
---------------------------------
-{
-    type: 'alternative_grouped';
-    msg: any;
-    path: string;
-    nestedErrors: FieldValidationError[][];
-}
+    {
+        type: 'alternative_grouped';
+        msg: any;
+        path: string;
+        nestedErrors: FieldValidationError[][];
+    }
 
+# Abstract Class
 
-Abstract Class
-===============
-1. Can not be instantiated
-2. Used to set up requirements for the subclasses.
-3. Creates a Class when translated to JS -> we can use it in instanceof checks.
-4. sub class must have its properties. eg: status code as number
+    1. Can not be instantiated
+    2. Used to set up requirements for the subclasses.
+    3. Creates a Class when translated to JS -> we can use it in instanceof checks.
+    4. sub class must have its properties. eg: status code as number
 
+# Inspect mongoDB
+
+    1. kubectl exec -it <mongo-pod-name> -- mongosh --eval "show dbs"
+    OR
+    1. terminal run -> kubectl run test --rm -it --image=mongo -- bash
+    1. inside shell run -> mongosh mongodb://auth-mongo-srv:27017
+    1. show dbs
+    OR
+    1. kubectl exec -it <mongo-pod-name> -- mongosh
