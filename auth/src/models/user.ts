@@ -37,7 +37,19 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-});
+},
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id
+
+        delete ret._id
+        delete ret.password
+        delete ret.__v
+      }
+    }
+  }
+);
 
 // userSchema.pre is a middleware provided by mongoose. The async function inside it is executed first whenever user tries to save anything to the DB. Do not use arrow fn as it will not have access to 'this' context.
 userSchema.pre('save', async function (done) {
@@ -72,5 +84,23 @@ const user = User.build({
   password: '123',
   // test: '' // show error
 })
+
+*/
+
+/*
+  toJSON in schema is written to transform json object
+  {
+    "email": "vnk4@gmail.com",
+    "password": "71fa2987ee8a29a9ce55b4335167727d4e86f44b99ea4fb2cc203eaf7ca488a9850357a073bb49d0e98591a25b4c9d1f626a1283a79cf08e1b8c6837a89e1dbe.ee51c2624aa26a9b",
+    "_id": "67af920be29fe9be67f05584",
+    "__v": 0,
+  }
+  
+  to
+
+  {
+    "email": "vnk4@gmail.com",
+    "id": "67af920be29fe9be67f05584"
+  }
 
 */
