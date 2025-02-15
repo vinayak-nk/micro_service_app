@@ -17,6 +17,8 @@
 
 8. npm i jsonwebtoken @types/jsonwebtoken
 
+9. npm i --save-dev @types/jest @types/supertest jest ts-jest supertest mongodb-memory-server
+
 # Error structure
 
     {
