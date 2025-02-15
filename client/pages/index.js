@@ -1,25 +1,16 @@
-import axios from "axios";
+import buildClient from "../api/build-client"
 
 const LandingPage = ({ currentUser }) => {
   console.log('currentUser', currentUser)
-  return (
-    <>
-      Landing page..!
-    </>
-  )
+  return currentUser ? <h1>You are Signed in...</h1> : <h1>Please sign in</h1>
 }
 
-LandingPage.getInitialProps = async ({ req }) => {
+LandingPage.getInitialProps = async (context) => {
   // Domain: http://NAMEOFSERVICE.NAMESPACE.svc.cluster.local
  
-  const baseURL = typeof window === 'undefined' 
-  ? 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local' // Server-side
-  : '/'; // browser side
-
   try {
-    const response = await axios.get(`${baseURL}/api/v1/users/currentuser`, {
-      headers: req ? req.headers : { host: 'ticketing.dev' },  // req.headers {host: 'ticketing.dev', ...}
-    });
+    const client = buildClient(context)
+    const response = await client.get('/api/v1/users/currentuser')
     return response.data;
   } catch (error) {
     console.error('Error:', error);
