@@ -123,17 +123,20 @@ describe('POST /api/v1/users/signout', () => {
 })
 
 describe('POST /api/v1/users/currentuser', () => {
-  it('should crespond with details of current user', async () => {
+  it('should respond with details of current user', async () => {
+    /*
     let response = await request(app)
       .post('/api/v1/users/signup')
       .send({ email: 'test@test.com', password: 'password' })
       .expect(201)
 
     const cookie = response.get('Set-Cookie')
+    */
+    const cookie = await global.signin()
 
     if (!cookie) throw new Error('cookie undefined')
 
-    response = await request(app)
+    const response = await request(app)
       .get('/api/v1/users/currentuser')
       .set('Cookie', cookie)
       .send()
