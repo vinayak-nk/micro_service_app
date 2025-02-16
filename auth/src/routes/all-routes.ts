@@ -2,9 +2,7 @@ import express from 'express';
 import { body } from 'express-validator'
 
 import { currentUserHandler, signinHandler, signoutHandler, signupHandler } from '../routesHandlers/authHandler'
-import { validateRequest } from '../middlewares/validate-request';
-import { currentUserMiddleware } from '../middlewares/current-user';
-import { requireAuthMiddleware } from '../middlewares/require-auth';
+import { validateRequest, currentUserMiddleware, requireAuthMiddleware } from '@vktickets/shared';
 
 const router = express.Router()
 

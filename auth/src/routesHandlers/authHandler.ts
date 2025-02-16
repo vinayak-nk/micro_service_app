@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 // import { RequestValidationError } from '../errors/request-validation-error';
 // import { DatabaseConnectionError } from '../errors/database-connection-error';
 import { User } from '../models/user';
-import { BadRequestError } from '../errors/bad-request-error';
+import { BadRequestError } from '@vktickets/shared';
 import { Password } from '../services/password';
 
 const currentUserHandler = (req: Request, res: Response) => {

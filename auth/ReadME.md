@@ -60,3 +60,19 @@
     Create -> kubectl create secret generic jwt-secret --from-literal=JWT_KEY=qwerty
     Read   -> kubectl get secrets
     Delete -> kubectl delete secret jwt-secret
+
+# common shared modeul - https://github.com/vinayak-nk/shared
+
+    1. created a common shared repo
+    2. publish and import package in micro services and adjust imports
+
+    ## publish package
+
+    1. create npm account
+    2. create organization
+    3. package.json name -> @ORG_NAME/NAME, EX: "name": "@vktickets/common"
+    4. commit code
+    5. npm publish --access public
+
+    6. moved middleware and errors folders to shared module
+    7. npm i express @types/express express-validator cookie-session @types/cookie-session jsonwebtoken @types/jsonwebtoken
