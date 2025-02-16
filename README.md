@@ -71,3 +71,11 @@ type "thisisunsafe" on google chrome
 3. orders
 4. expiration -> cancel order after 25 mins
 5. payments
+
+# Saving secrets in kubernates pods
+
+    Create -> kubectl create secret generic jwt-secret --from-literal=JWT_KEY=qwerty
+    Read   -> kubectl get secrets
+    Delete -> kubectl delete secret jwt-secret
+
+    kubectl create secret generic jwt-secret --from-literal=JWT_KEY=qwerty
