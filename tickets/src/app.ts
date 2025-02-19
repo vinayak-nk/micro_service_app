@@ -3,7 +3,7 @@ import 'express-async-errors'
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 
-import { createTicketRouter } from './routes/create';
+import { ticketRouter } from './routes/ticket-routes';
 import { errorHandler, NotFoundError, currentUserMiddleware } from '@vktickets/shared';
 
 const app = express();
@@ -22,7 +22,7 @@ app.use(
 app.use(currentUserMiddleware)
 
 // Router
-app.use(createTicketRouter);
+app.use(ticketRouter);
 
 // Throw error when route not found
 app.all('*', async () => {
