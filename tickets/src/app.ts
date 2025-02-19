@@ -3,8 +3,8 @@ import 'express-async-errors'
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
 
-// import { authRouter } from './routes/all-routes';
-import { errorHandler, NotFoundError } from '@vktickets/shared';
+import { createTicketRouter } from './routes/create';
+import { errorHandler, NotFoundError, currentUserMiddleware } from '@vktickets/shared';
 
 const app = express();
 app.set('trust proxy', true) // ingrss-nginx proxy
@@ -18,7 +18,11 @@ app.use(
   })
 )
 
-// app.use(authRouter);
+// custom middlewares
+app.use(currentUserMiddleware)
+
+// Router
+app.use(createTicketRouter);
 
 // Throw error when route not found
 app.all('*', async () => {

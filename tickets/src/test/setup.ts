@@ -1,7 +1,8 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import request from 'supertest';
-import { app } from '../app';
+// import request from 'supertest';
+// import { app } from '../app';
+import jwt from 'jsonwebtoken';
 
 declare global {
   // eslint-disable-next-line no-var
@@ -35,15 +36,28 @@ afterAll(async () => {
 })
 
 global.signin = async () => {
-  const response = await request(app)
-    .post('/api/v1/users/signup')
-    .send({ email: 'test@test.com', password: 'password' })
-    .expect(201)
+  // Build JWT paload. { id, email }
+  const payload = { id: 'qwertyuas', email: 'test@test.com' }
+  // Create a JWT
+  const token = jwt.sign(payload, process.env.JWT_KEY!)
+  // Build session object { jwt: value }
+  const session = { jwt: token }
+  // Turn that session into JSON
+  const sessionJson = JSON.stringify(session)
+  // Take JSON and encode as base64
+  const base64 = Buffer.from(sessionJson).toString('base64')
+  // return a string cookie data
+  return [`session=${base64}`]
+  /*
+    const response = await request(app)
+      .post('/api/v1/users/signup')
+      .send({ email: 'test@test.com', password: 'password' })
+      .expect(201)
 
-  const cookie = response.get('Set-Cookie')
+    const cookie = response.get('Set-Cookie')
 
-  if (!cookie) throw new Error('Cookie undefined');
+    if (!cookie) throw new Error('Cookie undefined');
 
-  return cookie
-
+    return cookie
+  */
 }

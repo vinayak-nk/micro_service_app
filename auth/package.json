@@ -25,7 +25,7 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/mongoose": "^5.11.97",
-    "@vktickets/shared": "^1.0.4",
+    "@vktickets/shared": "^1.0.5",
     "cookie-session": "^2.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
