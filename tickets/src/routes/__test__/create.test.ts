@@ -2,7 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 
-describe('CRUD /api/v1/tickets', () => {
+describe('Create /api/v1/tickets', () => {
   it('should listen to /api/v1/tickets', async () => {
     const response = await request(app).post('/api/v1/tickets').send({})
 

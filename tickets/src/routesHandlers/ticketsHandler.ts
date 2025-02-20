@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Ticket } from '../models/ticket';
-import { NotFoundError } from '@vktickets/shared';
+import { NotAuthorizedError, NotFoundError } from '@vktickets/shared';
 
 
 const createTicketHandler = async (req: Request, res: Response) => {
@@ -8,7 +8,7 @@ const createTicketHandler = async (req: Request, res: Response) => {
   const ticket = Ticket.build({ title, price, userId: req.currentUser!.id })
   await ticket.save()
 
-  res.status(201).send({ ticket });
+  res.status(201).send(ticket);
 };
 
 const readTicketHandler = async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ const readTicketHandler = async (req: Request, res: Response) => {
 
   if (!ticket) throw new NotFoundError();
 
-  res.status(200).send({ ticket })
+  res.status(200).send(ticket)
 };
 
 const readAllTicketHandler = async (req: Request, res: Response) => {
@@ -28,5 +28,17 @@ const readAllTicketHandler = async (req: Request, res: Response) => {
   res.status(200).send(tickets)
 };
 
+const updateTicketHandler = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const ticket = await Ticket.findById(id)
 
-export default { createTicketHandler, readTicketHandler, readAllTicketHandler };
+  if (!ticket) throw new NotFoundError();
+  if (ticket.userId !== req.currentUser!.id) throw new NotAuthorizedError()
+
+  ticket.set({ title: req.body.title, price: req.body.price })
+  await ticket.save()
+  res.status(200).send(ticket)
+};
+
+
+export default { createTicketHandler, readTicketHandler, readAllTicketHandler, updateTicketHandler };

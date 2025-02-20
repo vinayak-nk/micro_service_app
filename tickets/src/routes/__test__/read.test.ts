@@ -19,16 +19,10 @@ describe('GET/READ /api/v1/tickets/:id', () => {
       .send({ title, price })
       .expect(201)
 
-    // console.log("response", response)
+    const objectId = new Types.ObjectId(response.body.id);
+    const getTicketResponse = await request(app).get(`/api/v1/tickets/${objectId}`).set('Cookie', await global.signin()).send().expect(200)
 
-    if (Types.ObjectId.isValid(response.body.id)) {
-      const objectId = new Types.ObjectId(response.body.id);
-      const getTicketResponse = await request(app).get(`/api/v1/tickets/${objectId}`).set('Cookie', await global.signin()).send().expect(200)
-
-      expect(getTicketResponse.body.title).toEqual(title)
-      expect(getTicketResponse.body.price).toEqual(price)
-    } else {
-      console.log("Invalid ObjectId");
-    }
+    expect(getTicketResponse.body.title).toEqual(title)
+    expect(getTicketResponse.body.price).toEqual(price)
   })
 })

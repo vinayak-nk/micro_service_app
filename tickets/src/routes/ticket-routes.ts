@@ -15,5 +15,6 @@ const ticketValidator = [
 router.post('/api/v1/tickets', requireAuthMiddleware, ticketValidator, validateRequest, ticketsHandler.createTicketHandler)
 router.get('/api/v1/tickets/:id', requireAuthMiddleware, validateRequest, ticketsHandler.readTicketHandler)
 router.get('/api/v1/tickets', requireAuthMiddleware, validateRequest, ticketsHandler.readAllTicketHandler)
+router.put('/api/v1/tickets/:id', requireAuthMiddleware, ticketValidator, validateRequest, ticketsHandler.updateTicketHandler)
 
 export { router as ticketRouter };
