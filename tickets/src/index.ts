@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { app } from './app';
+import { natsWrapper } from './nats-wrapper';
+import { randomUUID } from 'crypto';
 
 dotenv.config();
 const DB_URL: string = process.env.DB_URL as string;
@@ -15,6 +17,19 @@ const start = async () => {
 
 
   try {
+    // NATS connection
+    const clientId = randomUUID()
+    await natsWrapper.connect('ticketing', clientId, 'http://nats-srv:4222')
+    const client = natsWrapper.client
+    client.on('close', () => {
+      console.log('NATS connection closed...!')
+      process.exit()
+    })
+    process.on('SIGINT', () => client.close()) // interrupt
+    process.on('SIGTERM', () => client.close()) // terminate
+
+
+    // Mongoose Connection
     await mongoose.connect(DB_URL)
     console.log('Connected to DB...')
   } catch (error) {
