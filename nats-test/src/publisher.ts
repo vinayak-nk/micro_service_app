@@ -12,7 +12,7 @@ client.on('connect', () => {
 
   const data = JSON.stringify({ id: '123', title: 'connect', price: 20 })
 
-  client.publish('ticket:creted', data, () => {
+  client.publish('ticket:created', data, () => {
     console.log('Event published')
   })
 
