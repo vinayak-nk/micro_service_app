@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { app } from './app';
 import { natsWrapper } from './nats-wrapper';
-import { randomUUID } from 'crypto';
 
 dotenv.config();
 const DB_URL: string = process.env.DB_URL as string;
@@ -14,12 +13,15 @@ const start = async () => {
   if (!DB_URL) throw new Error("Mongo URL must be defined")
   if (!hostAddress) throw new Error("Service IP must be defined")
   if (!hostPort) throw new Error("Service hostPort must be defined")
+  if (!process.env.NATS_URL) throw new Error("NATS_URL must be defined")
+  if (!process.env.NATS_CLUSTER_ID) throw new Error("NATS_CLUSTER_ID must be defined")
+  if (!process.env.NATS_CLIENT_ID) throw new Error("NATS_CLIENT_ID must be defined")
 
 
   try {
     // NATS connection
-    const clientId = randomUUID()
-    await natsWrapper.connect('ticketing', clientId, 'http://nats-srv:4222')
+    // const clientId = randomUUID()
+    await natsWrapper.connect(process.env.NATS_CLUSTER_ID, process.env.NATS_CLIENT_ID, process.env.NATS_URL)
     const client = natsWrapper.client
     client.on('close', () => {
       console.log('NATS connection closed...!')
