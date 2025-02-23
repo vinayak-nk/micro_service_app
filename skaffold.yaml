@@ -18,6 +18,14 @@ build:
             dest: .
       docker:
         dockerfile: Dockerfile
+    - image: vinaayak/orders
+      context: orders
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+      docker:
+        dockerfile: Dockerfile
     - image: vinaayak/client
       context: client
       sync:
