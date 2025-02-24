@@ -3,7 +3,9 @@ import { Request, Response } from 'express';
 import { Ticket } from '../models/ticket';
 import { BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus } from '@vktickets/shared';
 import { Order } from '../models/orders';
-// import { natsWrapper } from '../nats-wrapper';
+import { natsWrapper } from '../nats-wrapper';
+import { OrderCreatedEventPublisher } from '../events/publishers/order-created-publisher';
+import { OrderCancelledEventPublisher } from '../events/publishers/order-cancelled-publisher';
 
 const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes
 
@@ -33,6 +35,16 @@ const createOrdersHandler = async (req: Request, res: Response) => {
   await order.save()
 
   // Publish an event - order has been created.
+  new OrderCreatedEventPublisher(natsWrapper.client).publish({
+    id: order.id, // OrderId
+    status: order.status,
+    userId: order.userId,
+    expiresdAt: order.expiresAt.toISOString(),
+    ticket: {
+      id: ticket.id,
+      price: ticket.price
+    },
+  })
 
   res.status(201).send(order)
 };
@@ -63,6 +75,13 @@ const deleteOrdersHandler = async (req: Request, res: Response) => {
   // update status and save
   order.status = OrderStatus.Cancelled;
   await order.save()
+
+  new OrderCancelledEventPublisher(natsWrapper.client).publish({
+    id: order.id, // orderId
+    ticket: {
+      id: order.ticket.id, // ticket id
+    }
+  })
 
   res.status(204).send({})
 };
