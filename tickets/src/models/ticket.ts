@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 /*
   there are 2 issues typescript and mongoose integration.
@@ -21,6 +22,7 @@ interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
   userId: string;
+  version: number;
 }
 
 // step 5 - An interface that describes the properties that a Ticket "MODEL" has
@@ -42,6 +44,10 @@ const TicketSchema = new mongoose.Schema({
     }
   }
 },);
+
+// to update version of document on save/update
+TicketSchema.set('versionKey', 'version')
+TicketSchema.plugin(updateIfCurrentPlugin)
 
 // this function is created to overcome typescript checking at the time of creation of new Ticket.
 // step 4 - this function is created to overcome typescript checking at the time of creation of new Ticket.

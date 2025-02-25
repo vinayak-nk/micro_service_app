@@ -12,7 +12,7 @@ const createTicketHandler = async (req: Request, res: Response) => {
 
   // publishig event to NATS
   await new TicketCreatedPublisher(natsWrapper.client)
-    .publish({ id: ticket.id, title: ticket.title, price: ticket.price, userId: ticket.userId })
+    .publish({ id: ticket.id, title: ticket.title, price: ticket.price, userId: ticket.userId, version: ticket.version })
 
   res.status(201).send(ticket);
 };
@@ -46,7 +46,7 @@ const updateTicketHandler = async (req: Request, res: Response) => {
 
   // publishig event to NATS
   await new TicketUpdatedPublisher(natsWrapper.client)
-    .publish({ id: ticket.id, title: ticket.title, price: ticket.price, userId: ticket.userId })
+    .publish({ id: ticket.id, title: ticket.title, price: ticket.price, userId: ticket.userId, version: ticket.version })
 
   res.status(200).send(ticket)
 };

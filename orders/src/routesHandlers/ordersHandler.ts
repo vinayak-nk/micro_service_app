@@ -37,6 +37,7 @@ const createOrdersHandler = async (req: Request, res: Response) => {
   // Publish an event - order has been created.
   new OrderCreatedEventPublisher(natsWrapper.client).publish({
     id: order.id, // OrderId
+    version: order.version,
     status: order.status,
     userId: order.userId,
     expiresdAt: order.expiresAt.toISOString(),
@@ -78,6 +79,7 @@ const deleteOrdersHandler = async (req: Request, res: Response) => {
 
   new OrderCancelledEventPublisher(natsWrapper.client).publish({
     id: order.id, // orderId
+    version: order.version,
     ticket: {
       id: order.ticket.id, // ticket id
     }

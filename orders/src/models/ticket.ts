@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Order, OrderStatus } from './orders';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
 
 // step - An interface describes the props to create a new Ticket
 interface TicketAttrs { id: string, title: string, price: number }
@@ -8,6 +9,7 @@ interface TicketAttrs { id: string, title: string, price: number }
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isTicketReserved(): Promise<boolean>;
 }
 
@@ -28,6 +30,10 @@ const TicketSchema = new mongoose.Schema(
       }
     }
   });
+
+// to update version of document on save/update
+TicketSchema.set('versionKey', 'version')
+TicketSchema.plugin(updateIfCurrentPlugin)
 
 // this function is created to overcome typescript checking at the time of creation of new Ticket.
 // step - this function is created to overcome typescript checking at the time of creation of new Ticket.
