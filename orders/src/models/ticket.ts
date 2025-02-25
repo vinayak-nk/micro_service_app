@@ -14,7 +14,10 @@ interface TicketDoc extends mongoose.Document {
 }
 
 // step - An interface that describes the properties that a Ticket "MODEL" has
-interface TicketModel extends mongoose.Model<TicketDoc> { build(attrs: TicketAttrs): TicketDoc }
+interface TicketModel extends mongoose.Model<TicketDoc> {
+  build(attrs: TicketAttrs): TicketDoc,
+  findByIdPreVersion(event: { id: string, version: number }): Promise<TicketDoc | null>;
+}
 
 // step
 const TicketSchema = new mongoose.Schema(
@@ -43,6 +46,13 @@ TicketSchema.statics.build = (attrs: TicketAttrs) => {
     title: attrs.title,
     price: attrs.price,
   });
+}
+
+TicketSchema.statics.findByIdPreVersion = (event: { id: string, version: number }) => {
+  return Ticket.findOne({
+    _id: event.id,
+    version: event.version - 1
+  })
 }
 
 // Find an order where the ticket is the, ticket we just found and order status is not *CANCELLED*
