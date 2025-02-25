@@ -31,7 +31,13 @@ const TicketSchema = new mongoose.Schema(
 
 // this function is created to overcome typescript checking at the time of creation of new Ticket.
 // step - this function is created to overcome typescript checking at the time of creation of new Ticket.
-TicketSchema.statics.build = (attrs: TicketAttrs) => new Ticket(attrs);
+TicketSchema.statics.build = (attrs: TicketAttrs) => {
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
+}
 
 // Find an order where the ticket is the, ticket we just found and order status is not *CANCELLED*
 TicketSchema.methods.isTicketReserved = async function () {
